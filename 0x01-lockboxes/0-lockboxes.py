@@ -3,14 +3,14 @@
 function that determine if all boxes can be openned
 """
 
+
 def canUnlockAll(boxes):
     # Set of boxes that we have keys for
     keys = set([0])
-   
 
     # Queue of boxes to search through
     queue = [0]
-    
+
     # While there are boxes to search through
     while queue:
         # Take the next box
