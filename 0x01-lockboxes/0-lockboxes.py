@@ -5,6 +5,9 @@ function that determine if all boxes can be openned
 
 
 def canUnlockAll(boxes):
+
+    if (type(boxes) is not list or len(boxes) == 0):
+        return False
     # Set of boxes that we have keys for
     keys = set([0])
 
