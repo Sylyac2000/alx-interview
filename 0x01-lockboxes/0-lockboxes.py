@@ -12,20 +12,13 @@ def canUnlockAll(boxes):
     keys = set([0])
 
     # Queue of boxes to search through
-    queue = [0]
-
-    # While there are boxes to search through
-    while queue:
-        # Take the next box
-        box = queue.pop(0)
-        list_key = boxes[box]
-        # For each key in the box
-        for key in list_key:
-            # If we don't have a key for this box yet
-            if key not in keys:
-                # Add the key and the box to our sets
-                keys.add(key)
-                queue.append(key)
-
+    queue = set(boxes[0]).difference(set([0]))
+    while len(queue) > 0:
+        box = queue.pop()
+        if not box or box >= len(boxes) or box < 0:
+            continue
+        if box not in keys:
+            queue = queue.union(boxes[box])
+            keys.add(box)
     # Return whether we have a key for all boxes
     return len(keys) == len(boxes)
