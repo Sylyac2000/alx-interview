@@ -4,21 +4,27 @@ a valid UTF-8 encoding
 """
 
 
+def check(num):
+    mask = 1 << (8 - 1)  # 10000000
+    i = 0
+    while num & mask:  # 11000110 & 100000
+        mask >>= 1
+        i += 1
+    return i
+
+
 def validUTF8(data):
     """Return: True if data is a valid UTF-8 encoding, else return False"""
-    count = 0
-    for byte in data:
-        if count == 0:
-            if (byte >> 5) == 0b110:
-                count = 1
-            elif (byte >> 4) == 0b1110:
-                count = 2
-            elif (byte >> 3) == 0b11110:
-                count = 3
-            elif (byte >> 7):
+    i = 0
+    while i < len(data):
+        j = check(data[i])
+        k = i + j - (j != 0)
+        i += 1
+        if j == 1 or j > 4 or k >= len(data):
+            return False
+        while i < len(data) and i <= k:
+            cur = check(data[i])
+            if cur != 1:
                 return False
-        else:
-            if (byte >> 6) != 0b10:
-                return False
-            count -= 1
-    return count == 0
+            i += 1
+    return True
